@@ -1,0 +1,22 @@
+---
+- name: Install Git
+  pacman:
+    name: git
+    state: present
+  become: yes
+
+- name: Retrieve Git Credentials From Vault
+  ansible.builtin.include_vars:
+    file: ../vault/git_credentials.yml
+    name: git_credentials
+  no_log: true # Don't display email in logs
+
+- name: Configure Git User
+  git_config:
+    name: user.user
+    value: "{{ git_credentials.git_user }}"
+    
+- name: Configure Git Email
+  git_config:
+    name: user.email
+    value: "{{ git_credentials.git_email }}"

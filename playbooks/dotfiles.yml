@@ -1,0 +1,23 @@
+---
+- name: Configure Dotfiles
+  hosts: personal
+  become: yes
+  roles:
+    - roles/git
+  tasks:
+    - name: Clone .dotfiles repo
+      git:
+        repo: https://github.com/Nordin-S/dotfiles.git
+        dest: ~/.dotfiles
+        update: yes
+        accept_hostkey: yes
+      become_user: "{{ ansible_user }}"
+      notify: Change directory and stow
+
+  handlers:
+    - name: Change directory and stow
+      become_user: "{{ ansible_user }}"
+      shell: |
+        cd ~/.dotfiles
+        stow -t ~/ -R neovim
+        stow -t ~/ -R scripts
