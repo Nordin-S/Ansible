@@ -1,0 +1,23 @@
+---
+- name: Install yay
+  hosts: personal
+  become: yes
+  roles:
+    - roles/git
+  tasks:
+    - name: Clone yay repo
+      git:
+        repo: https://aur.archlinux.org/yay-git.git
+        dest: ~/yay-git
+        update: yes
+        accept_hostkey: yes
+      become_user: "{{ ansible_user }}"
+      notify: Change directory and make/install yay
+
+  handlers:
+    - name: Change directory and make/install yay
+      become_user: "{{ ansible_user }}"
+      shell: |
+        cd ~/yay-git
+	makepkg -si
+	cd ~/repos/ansible

@@ -18,12 +18,8 @@
         - ranger
         - rofi
         - wl-clipboard
-        - sway
-        - swww
-        - swaylock
-        - swayidle
         - waybar
-        - "{{ default_text_editor }}"
+        - "{{ default_text_editor }}" # neovim btw ;)
         - vlc
         - feh
         - htop
@@ -35,11 +31,41 @@
         - spotify
         - discord
         - stow
-        - git
         - gh
         - dolphin
         - fzf
-        - yay
+
+        - pacman-contrib
+        - nitrogen
+        - dunst
+        - starship
+        - mpv
+        - freerdp
+        - xfce4-power-manager
+        - thunar
+        - mousepad
+        - ttf-font-awesome
+        - ttf-fira-sans
+        - ttf-fira-code
+        - ttf-firacode-nerd
+        - figlet
+        - breeze
+        - breeze-gtk
+        - exa
+        - python-pipx
+        - python-psutil
+        - python-rich
+        - python-click
+        - xdg-desktop-porta-gtk
+        - pavucontrol
+        - tumbler
+        - xautolock
+        - blueman
+        - nautilus
+
+
+
+
 
     - name: Set default shell to zsh
       user:
