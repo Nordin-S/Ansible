@@ -2,11 +2,14 @@
 - name: Basic Setup
   hosts: personal
   become: yes
+  roles:
+    - ~/repos/ansible/roles/git
+    - ~/repos/ansible/roles/gh-cli
 
   tasks:
     - name: Update package cache
       pacman:
-        update_cache:yes
+        update_cache: yes
 
     - name: Install essential packages
       pacman:
@@ -28,10 +31,8 @@
         - fontconfig
         - tlp
         - lxappearance
-        - spotify
         - discord
         - stow
-        - gh
         - dolphin
         - fzf
         - nitrogen
@@ -53,14 +54,47 @@
         - python-psutil
         - python-rich
         - python-click
-        - xdg-desktop-porta-gtk
+        - xdg-desktop-portal-gtk
         - pavucontrol
         - tumbler
         - xautolock
         - blueman
+        - python-pywal
+        - swww
+        - zoxide
+        - tmux
+        - bluez-utils-compat
 
+    - name: Clone yay repo
+      git:
+        repo: https://aur.archlinux.org/yay-git.git
+        dest: ~/yay-git
+        update: yes
+        accept_hostkey: yes
+      become_user: "{{ ansible_user }}"
+      notify: Change directory and make/install yay
 
+  handlers:
+    - name: Change directory and make/install yay
+      become_user: "{{ ansible_user }}"
+      shell: |
+        cd ~/yay-git
+        makepkg -si
+        cd ~/repos/ansible
 
+    - name: Update yay package cache
+      ansible.builtin.command: yay -Sy
+
+    - name: Install essential yay packages
+      ansible.builtin.command: yay -S --needed --nonconfirm "{{ item }}"
+      loop:
+        - spotify
+        - brave-bin
+        - pfetch
+        - bibata-cursor-theme
+        - wleave-git
+        - timeshift
+        - swaylock
 
     - name: Set default shell to zsh
       user:

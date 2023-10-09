@@ -13,7 +13,8 @@
 
 - name: Set Github Personal Access Token
   ansible.builtin.shell: |
-    gh auth login --with-token "{{ git_credentials.git_token }}"
+    unset GITHUB_TOKEN
+    echo "{{ git_credentials.git_token }}" | gh auth login --with-token
   environment:
     GITHUB_TOKEN: "{{ git_credentials.git_token }}"
 
