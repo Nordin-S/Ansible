@@ -35,7 +35,7 @@
         - stow
         - dolphin
         - fzf
-        - nitrogen
+        # - nitrogen
         - dunst
         - starship
         - mpv

@@ -34,3 +34,5 @@
         stow -t ~/ -R waybar
         stow -t ~/ -R hyprland
         stow -t ~/ -R kitty
+        stow -t ~/ -R starship
+        stow -t ~/ -R btop
