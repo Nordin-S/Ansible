@@ -30,7 +30,7 @@
         stow -t ~/ -R neovim
         stow -t ~/ -R scripts
         stow -t ~/ -R tmux
-        stow -t ~/ -R .zshrc
+        stow -t ~/ -R shell
         stow -t ~/ -R waybar
         stow -t ~/ -R hyprland
         stow -t ~/ -R kitty
