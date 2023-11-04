@@ -95,6 +95,7 @@
         - wleave-git
         - timeshift
         - swaylock
+        - xdotool
 
     - name: Set default shell to zsh
       user:
