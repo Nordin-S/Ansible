@@ -6,6 +6,13 @@
     - ~/repos/ansible/roles/git
     - ~/repos/ansible/roles/gh-cli
   tasks:
+    - name: Clone tmux pakage manager
+      git:
+        repo: https://github.com/tmux-plugins/tpm
+        dest: ~/.tmux/plugins/tpm
+        accept_hostkey: yes
+      become_user: "{{ ansible_user }}"
+        
     - name: Clone .dotfiles repo
       git:
         repo: https://github.com/Nordin-S/dotfiles.git
@@ -15,17 +22,12 @@
       become_user: "{{ ansible_user }}"
       notify: Change directory and stow
 
-    - name: Clone tmux pakage manager
-      git:
-        repo: https://github.com/tmux-plugins/tpm
-        dest: ~/.tmux/plugins/tpm
-        accept_hostkey: yes
-      become_user: "{{ ansible_user }}"
-
   handlers:
     - name: Change directory and stow
       become_user: "{{ ansible_user }}"
       shell: |
+        cd ~/.config
+        rm -dfr nvim btop dunst hypr kitty tmux waybar
         cd ~/.dotfiles
         stow -t ~/ -R neovim
         stow -t ~/ -R scripts
