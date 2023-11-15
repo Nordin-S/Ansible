@@ -96,6 +96,7 @@
         - xdotool
         - swww-git
         - bluez-utils-compat
+        - lazygit-git
 
     - name: Set default shell to zsh
       user:
