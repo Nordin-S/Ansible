@@ -62,6 +62,9 @@
         - python-pywal
         - zoxide
         - tmux
+        - nodejs
+        - npm
+        - ripgrep
 
     - name: Clone yay repo
       git:
