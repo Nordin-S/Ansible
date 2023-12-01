@@ -1,0 +1,36 @@
+
+---
+- name: Install entertainment tools
+  pacman:
+    name: "{{ item }}"
+    state: present
+  loop:
+    ## Entertainment:
+    - vlc
+    - discord
+    - spotify
+    - mpv # Media player
+    - yewtube # Command-line YouTube browser/player
+    - cava # Console-based audio visualizer
+    #gaming
+    - lutris
+    - steam
+    - wine
+    - mangohud
+  tags:
+    - complete
+    - entertainment
+
+- name: Install gaming tools
+  pacman:
+    name: "{{ item }}"
+    state: present
+  loop:
+    #gaming
+    - lutris
+    - steam
+    - wine
+    - mangohud
+  tags:
+    - complete
+    - gaming

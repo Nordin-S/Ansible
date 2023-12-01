@@ -1,0 +1,58 @@
+
+---
+- name: Install development tools
+  pacman:
+    name: "{{ item }}"
+    state: present
+  loop:
+    ## Development:
+    # Version Control
+    # - anything other than git
+    # IDE
+    - "{{ default_text_editor }}" # neovim btw ;)
+    - intellij # IntelliJ IDEA, Java IDE
+    - pycharm # PyCharm, Python IDE
+    - clion # CLion, C and C++ IDE
+    - code # Visual Studio Code, source code editor
+    # build systems
+    - cmake # Cross-platform build system
+    - premake3
+    - gradle
+    - build-essential # Essential packages for building software
+    # languages
+    - nodejs # JavaScript runtime built on Chrome's V8 JavaScript engine
+    - clang
+    - rust
+    - jdk-openjdk
+    - go
+    - python
+    - lua
+    - ocaml
+    - qt6-base
+    # package managers
+    - npm # Package manager for Node.js
+    - python-pip
+    - python-pipx
+    ## DevOps:
+    - docker
+    - kubectl
+    - helm
+  tags:
+    - complete
+    - dev
+
+
+
+- name: Install AI/ML tools
+  pacman:
+    name: "{{ item }}"
+    state: present
+  loop:
+    ## AI/ML:
+    - tensorflow
+    - pytorch
+    - scikit-learn
+    - jupyter
+  tags:
+    - complete
+    - ai-ml

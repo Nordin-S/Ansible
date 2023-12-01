@@ -1,0 +1,129 @@
+---
+
+- name: Ensure multilib repository is enabled
+  community.general.ini_file:
+    path: /etc/pacman.conf
+    create: false
+    section: multilib
+    option: Include
+    value: /etc/pacman.d/mirrorlist
+
+- name: Ensure the system package definition is up to date
+  community.general.pacman:
+    update_cache: true
+    upgrade: false
+
+- name: Ensure core packages are installed
+  community.general.pacman:
+    state: present
+    name:
+      ## Base System:
+      - base-devel # Base development tools
+      - pacman-contrib # Utility tools for Pacman package manager
+      - htop # Interactive process viewer
+      - "{{ default_shell }}"
+      - "{{ default_term_emulator }}"
+      - btop # Terminal-based resource monitor
+      - pipewire # Server for handling audio and video streams
+      - fzf # Command-line fuzzy finder
+      - fzy # Faster Command-line fuzzy finder
+      - fd # Simple, fast and user-friendly alternative to find
+      - curl # Command-line tool for transferring data
+      - starship # Cross-shell prompt with rich functionality
+      - freerdp # Remote Desktop Protocol (RDP) client
+      - xfce4-power-manager # Power manager for XFCE desktop environment
+      - mousepad # Simple text editor for Xfce
+      - pavucontrol # Volume control application for PulseAudio
+      - tumbler # D-Bus service for applications requesting thumbnail images
+      - zoxide # Fast directory changer
+      - tmux # Terminal multiplexer
+      - ripgrep # Fast, recursive search tool
+      - fontconfig # Font configuration and customization library
+      - stow # Organize software neatly in a separate directory
+      - ttf-font-awesome # Iconic font designed for use with Font Awesome
+      - ttf-fira-sans # Sans-serif font designed for Firefox OS
+      - ttf-fira-code # Monospaced font with programming ligatures
+      - ttf-firacode-nerd # Nerd Font patched version of Fira Code
+      - exa # Modern replacement for 'ls'
+      - figlet # ASCII art font generator
+      - duplicity # Encrypted bandwidth-efficient backup using the rsync algorithm
+      - ark # Archiving tool for KDE
+      # desktop env
+      - lxappearance # GTK theme switcher
+      - blueman # GTK+ Bluetooth Manager
+      - python-pywal # Generate and change color schemes on the fly
+      - xautolock # Activate X screen saver or locker after a user-defined inactivity period
+      - dunst # Lightweight and customizable notification daemon
+      - ranger # Console file manager with VI key bindings
+      - rofi # Window switcher, run dialog, and dmenu replacement
+      - wl-clipboard # Command-line copy/paste utilities for Wayland
+      - waybar # Highly customizable Wayland bar for Sway and Wlroots-based compositors
+      - dolphin # File manager for KDE
+      - rofimoji # Emoji picker for Rofi
+  tags:
+    - complete
+    - core
+
+- name: Clone yay repo
+  git:
+    repo: https://aur.archlinux.org/yay-git.git
+    dest: ~/yay-git
+    update: yes
+    accept_hostkey: yes
+  become_user: "{{ ansible_user }}"
+  notify: Change directory and make/install yay
+
+  handlers:
+    - name: Change directory and make/install yay
+      become_user: "{{ ansible_user }}"
+      shell: |
+        cd ~/yay-git
+        makepkg -si --noconfirm
+        cd ~/repos/ansible
+
+    - name: Update yay package cache
+      ansible.builtin.command: yay -Sy
+
+    - name: Install essential yay packages
+      ansible.builtin.command: yay -S --needed --nonconfirm "{{ item }}"
+      loop:
+        ## Base
+        - pfetch
+        - xdotool
+        - bluez-utils-compat
+        - spotify
+        - brave-bin
+        - imv-git
+        - slack-desktop
+        # screenshot
+        - grim-git
+        - slurp-git
+        # desktop env
+        - octopi
+        - bibata-cursor-theme
+        - wleave-git
+        - timeshift
+        - swaylock
+        - swww-git
+        - nnn-nerd
+        # virualization
+        - kvritual
+        - qemu-git
+        # dev
+        - lazygit-git
+        - lazydocker
+        - doxygen-git
+        - jetbrains-toolbox
+        # game engine
+        - unityhub
+        #- unreal-engine
+        #- godot-git
+        #- godot3
+      tags:
+        - complete
+        - core
+
+    - name: Set default shell to zsh
+      user:
+        name: "{{ ansible_user }}"
+        shell: /bin/zsh

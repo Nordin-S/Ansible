@@ -3,7 +3,7 @@
   pacman:
     name: git
     state: present
-  become: yes
+  become: true
 
 - name: Retrieve Git Credentials From Vault
   ansible.builtin.include_vars:
@@ -20,3 +20,20 @@
   git_config:
     name: user.email
     value: "{{ git_credentials.git_email }}"
+
+- name: Install Github cli
+  pacman:
+    name: github-cli
+    state: present
+  become: true
+
+- name: Set Github Personal Access Token
+  ansible.builtin.shell: |
+    unset GITHUB_TOKEN
+    echo "{{ git_credentials.git_token }}" | gh auth login --with-token
+  environment:
+    GITHUB_TOKEN: "{{ git_credentials.git_token }}"
+
+- name: Configure GitHub CLI to USE HTTPS
+  ansible.builtin.shell: |
+    gh config set git_protocol https

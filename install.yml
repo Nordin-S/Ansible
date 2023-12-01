@@ -1,0 +1,12 @@
+---
+- name: Setup Archlinux Workstation
+  hosts: personal
+  become: true
+  roles:
+    - filesystem
+    - git
+    - core
+    - dev
+    - ai_ml
+    - entertainment
+    - dot

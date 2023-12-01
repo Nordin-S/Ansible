@@ -1,9 +1,10 @@
+
 ---
-- name: Setup Developer User Structure
-  hosts: localhost
-  become: yes
+- name: Setup Development FS
+  hosts: personal
+  become: true
   vars:
-    developer_username: "narch"
+    developer_username: "{{ ansible_user }}"
 
   tasks:
     - name: Create main directories
@@ -64,7 +65,6 @@
         owner: "{{ developer_username }}"
         group: "{{ developer_username }}"
       loop:
-
         - "Documents"
         - "Documents/Notes"
         - "Downloads"
@@ -87,6 +87,22 @@
         - ".config/Code - OSS"
         - ".config/jetbrains"
 
+    - name: Set permissions for additional directories
+      file:
+        path: "/home/{{ developer_username }}/{{ item }}"
+        state: directory
+        mode: "0755"
+        owner: "{{ developer_username }}"
+        group: "{{ developer_username }}"
+      loop:
+        - ".virtualenvs"
+        - ".nvm"
+        - ".rvm"
+        - ".docker"
+        - ".vim"
+        - ".config/Code - OSS"
+        - ".config/jetbrains"
+
     - name: Set permissions for the documents and notes directory
       file:
         path: "/home/{{ developer_username }}/Documents/Notes"
@@ -94,4 +110,3 @@
         mode: "0755"
         owner: "{{ developer_username }}"
         group: "{{ developer_username }}"
-

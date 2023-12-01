@@ -1,10 +1,7 @@
 ---
 - name: Configure Dotfiles
   hosts: personal
-  become: yes
-  roles:
-    - ~/repos/ansible/roles/git
-    - ~/repos/ansible/roles/gh-cli
+  become: true
   tasks:
     - name: Clone tmux pakage manager
       git:
