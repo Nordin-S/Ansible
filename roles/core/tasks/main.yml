@@ -95,12 +95,16 @@
         - brave-bin
         - imv-git
         - slack-desktop
+        - ttf-jetbrains-mono-nerd
+        - ttf-sourcecodepro-nerd
+        - dracula-gtk-theme
         # screenshot
         - grim-git
         - slurp-git
         # desktop env
         - octopi
         - bibata-cursor-theme
+        - lxsession-git
         - wleave-git
         - timeshift
         - swaylock
