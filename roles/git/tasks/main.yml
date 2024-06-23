@@ -7,9 +7,9 @@
 
 - name: Retrieve Git Credentials From Vault
   ansible.builtin.include_vars:
-    file: ../vault/git_credentials.yml
+    file: ../../vault/git_credentials.yml
     name: git_credentials
-  no_log: true # Don't display email in logs
+  no_log: false # Don't display email in logs
 
 - name: Configure Git User
   git_config:
@@ -21,11 +21,19 @@
     name: user.email
     value: "{{ git_credentials.git_email }}"
 
-- name: Install Github cli
+- name: Install Github cli (arch)
   ansible.builtin.package:
     name: github-cli
     state: present
   become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Install Github cli (debian)
+  ansible.builtin.package:
+    name: gh
+    state: present
+  become: true
+  when: ansible_os_family == "Debian"
 
 - name: Set Github Personal Access Token
   ansible.builtin.shell: |

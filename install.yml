@@ -1,12 +1,12 @@
 ---
 - name: Setup Workstation
   hosts: personal
-  become: true
+  become: yes
   roles:
     - filesystem
     - git
     - core
     - dev
-    - ai_ml
+    #- ai_ml
     - entertainment
     - dot

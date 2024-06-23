@@ -8,12 +8,11 @@
     ## Entertainment:
     - vlc
     - discord
-    - spotify
     - mpv # Media player
-    - yewtube # Command-line YouTube browser/player
     - cava # Console-based audio visualizer
   tags:
-    - complete
+    - complete-arch
+    - complete-deb
     - entertainment
 
 - name: Install gaming tools
@@ -27,5 +26,6 @@
     - wine
     - mangohud
   tags:
-    - complete
+    - complete-arch
+    - complete-deb
     - gaming

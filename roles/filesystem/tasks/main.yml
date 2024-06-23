@@ -1,112 +1,105 @@
 
 ---
-- name: Setup Development FS
-  hosts: personal
-  become: true
-  vars:
-    developer_username: "{{ ansible_user }}"
+  - name: Create main directories
+    file:
+      path: "/home/{{ developer_username }}/{{ item }}"
+      state: directory
+      mode: "0755"
+    loop:
+      - "Documents"
+      - "Documents/Notes"
+      - "Downloads"
+      - "Pictures"
+      - "Music"
+      - "Videos"
+      - "Public"
+      - "Templates"
+      - "Desktop"
+      - "Projects"
+      - "Projects/work"
+      - "Projects/personal"
+      - "bin"
+      - "tools"
 
-  tasks:
-    - name: Create main directories
-      file:
-        path: "/home/{{ developer_username }}/{{ item }}"
-        state: directory
-        mode: "0755"
-      loop:
-        - "Documents"
-        - "Documents/Notes"
-        - "Downloads"
-        - "Pictures"
-        - "Music"
-        - "Videos"
-        - "Public"
-        - "Templates"
-        - "Desktop"
-        - "Projects"
-        - "Projects/work"
-        - "Projects/personal"
-        - "bin"
-        - "tools"
+  - name: Create development tool directories
+    file:
+      path: "/home/{{ developer_username }}/{{ item }}"
+      state: directory
+      mode: "0755"
+    loop:
+      - ".virtualenvs"
+      - ".nvm"
+      - ".rvm"
+      - ".docker"
 
-    - name: Create development tool directories
-      file:
-        path: "/home/{{ developer_username }}/{{ item }}"
-        state: directory
-        mode: "0755"
-      loop:
-        - ".virtualenvs"
-        - ".nvm"
-        - ".rvm"
-        - ".docker"
+  - name: Create IDE and editor configuration directories
+    file:
+      path: "/home/{{ developer_username }}/{{ item }}"
+      state: directory
+      mode: "0755"
+    loop:
+      - ".vim"
+      - ".config/Code - OSS"
+      - ".config/jetbrains"
 
-    - name: Create IDE and editor configuration directories
-      file:
-        path: "/home/{{ developer_username }}/{{ item }}"
-        state: directory
-        mode: "0755"
-      loop:
-        - ".vim"
-        - ".config/Code - OSS"
-        - ".config/jetbrains"
+  - name: Set permissions for the user's home directory
+    file:
+      path: "/home/{{ developer_username }}"
+      state: directory
+      mode: "0755"
+      owner: "{{ developer_username }}"
+      group: "{{ developer_username }}"
 
-    - name: Set permissions for the user's home directory
-      file:
-        path: "/home/{{ developer_username }}"
-        state: directory
-        mode: "0755"
-        owner: "{{ developer_username }}"
-        group: "{{ developer_username }}"
+  - name: Set permissions for the user's directories
+    file:
+      path: "/home/{{ developer_username }}/{{ item }}"
+      state: directory
+      mode: "0755"
+      owner: "{{ developer_username }}"
+      group: "{{ developer_username }}"
+    loop:
+      - "Documents"
+      - "Documents/Notes"
+      - "Downloads"
+      - "Pictures"
+      - "Music"
+      - "Videos"
+      - "Public"
+      - "Templates"
+      - "Desktop"
+      - "tools"
+      - "Projects"
+      - "Projects/work"
+      - "Projects/personal"
+      - "bin"
+      - ".virtualenvs"
+      - ".nvm"
+      - ".rvm"
+      - ".docker"
+      - ".vim"
+      - ".config/Code - OSS"
+      - ".config/jetbrains"
 
-    - name: Set permissions for the user's directories
-      file:
-        path: "/home/{{ developer_username }}/{{ item }}"
-        state: directory
-        mode: "0755"
-        owner: "{{ developer_username }}"
-        group: "{{ developer_username }}"
-      loop:
-        - "Documents"
-        - "Documents/Notes"
-        - "Downloads"
-        - "Pictures"
-        - "Music"
-        - "Videos"
-        - "Public"
-        - "Templates"
-        - "Desktop"
-        - "tools"
-        - "Projects"
-        - "Projects/work"
-        - "Projects/personal"
-        - "bin"
-        - ".virtualenvs"
-        - ".nvm"
-        - ".rvm"
-        - ".docker"
-        - ".vim"
-        - ".config/Code - OSS"
-        - ".config/jetbrains"
+  - name: Set permissions for additional directories
+    file:
+      path: "/home/{{ developer_username }}/{{ item }}"
+      state: directory
+      mode: "0755"
+      owner: "{{ developer_username }}"
+      group: "{{ developer_username }}"
+    loop:
+      - ".virtualenvs"
+      - ".nvm"
+      - ".rvm"
+      - ".docker"
+      - ".vim"
+      - ".config/Code - OSS"
+      - ".config/jetbrains"
 
-    - name: Set permissions for additional directories
-      file:
-        path: "/home/{{ developer_username }}/{{ item }}"
-        state: directory
-        mode: "0755"
-        owner: "{{ developer_username }}"
-        group: "{{ developer_username }}"
-      loop:
-        - ".virtualenvs"
-        - ".nvm"
-        - ".rvm"
-        - ".docker"
-        - ".vim"
-        - ".config/Code - OSS"
-        - ".config/jetbrains"
-
-    - name: Set permissions for the documents and notes directory
-      file:
-        path: "/home/{{ developer_username }}/Documents/Notes"
-        state: directory
-        mode: "0755"
-        owner: "{{ developer_username }}"
-        group: "{{ developer_username }}"
+  - name: Set permissions for the documents and notes directory
+    file:
+      path: "/home/{{ developer_username }}/Documents/Notes"
+      state: directory
+      mode: "0755"
+      owner: "{{ developer_username }}"
+      group: "{{ developer_username }}"

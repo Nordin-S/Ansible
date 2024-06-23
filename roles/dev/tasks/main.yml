@@ -1,6 +1,5 @@
-
 ---
-- name: Install development tools
+- name: Install development tools (arch)
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
@@ -40,19 +39,61 @@
   tags:
     - complete
     - dev
+  when: ansible_distribution == "Archlinux"
 
-
-
-- name: Install AI/ML tools
-  pacman:
+- name: Install development tools (deb)
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop:
-    ## AI/ML:
-    - tensorflow
-    - pytorch
-    - scikit-learn
-    - jupyter
+    ## Development:
+    # Version Control
+    # - anything other than git
+    # IDE
+    - "{{ default_text_editor }}" # neovim btw ;)
+    #- intellij # IntelliJ IDEA, Java IDE
+    #- pycharm # PyCharm, Python IDE
+    #- clion # CLion, C and C++ IDE
+    - code # Visual Studio Code, source code editor
+    # build systems
+    - cmake # Cross-platform build system
+    #- premake3
+    - gradle
+    - build-essential # Essential packages for building software
+    # languages
+    - nodejs # JavaScript runtime built on Chrome's V8 JavaScript engine
+    - clang
+    - rustc
+    - openjdk-21-jdk
+    - golang-go
+    - python3
+    - lua5.4
+    - opam
+    # package managers
+    - npm # Package manager for Node.js
+    - python3-pip
+    - pipx
+    ## DevOps:
+    - docker
+    #- kubectl
+    #- helm
   tags:
-    - complete
-    - ai-ml
+    - complete-deb
+    - dev-deb
+  when: ansible_os_family == "Debian"
+
+    #- name: Install AI/ML tools
+    #  ansible.builtin.package:
+    #    name: "{{ item }}"
+    #    state: present
+    #  loop:
+    #    ## AI/ML:
+    #    #- tensorflow - use pip
+    #    #- pytorch    - use pip
+    #    #- jupyter    - use pip
+    #    #- python3-sklearn
+    #    #- python3-sklearn-lib
+    #    #- python3-sklearn-doc
+    #  tags:
+    #    - complete
+    #    - ai-ml

@@ -1,4 +1,5 @@
 # Personal DevEnv Variables
+developer_username: "nauot"
 default_shell: zsh
 default_term_emulator: kitty
 default_text_editor: neovim

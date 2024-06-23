@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure multilib repository is enabled (Arch)
   community.general.ini_file:
     path: /etc/pacman.conf
@@ -83,68 +82,6 @@
   notify: Change directory and make/install yay
   when: ansible_distribution == "Archlinux"
 
-  handlers:
-    - name: Change directory and make/install yay
-      become_user: "{{ ansible_user }}"
-      shell: |
-        cd ~/yay-git
-        makepkg -si --noconfirm
-        cd ~/repos/ansible
-      when: ansible_distribution == "Archlinux"
-
-    - name: Update yay package cache
-      ansible.builtin.command: yay -Sy
-      when: ansible_distribution == "Archlinux"
-
-    - name: Install essential yay packages
-      ansible.builtin.command: yay -S --needed --nonconfirm "{{ item }}"
-      loop:
-        ## Base
-        - pfetch
-        - xdotool
-        - bluez-utils-compat
-        - spotify
-        - brave-bin
-        - imv-git
-        - slack-desktop
-        - ttf-jetbrains-mono-nerd
-        - ttf-sourcecodepro-nerd
-        - dracula-gtk-theme
-        # screenshot
-        - grim-git
-        - slurp-git
-        # desktop env
-        - octopi
-        - bibata-cursor-theme
-        - lxsession-git
-        - wleave-git
-        - timeshift
-        - swaylock
-        - swww-git
-        - nnn-nerd
-        # virualization
-        - kvritual
-        - qemu-git
-        # dev
-        - lazygit-git
-        - lazydocker
-        - doxygen-git
-        - jetbrains-toolbox
-        # game engine
-        - unityhub
-        #- unreal-engine
-        #- godot-git
-        #- godot3
-      tags:
-        - complete-arch
-        - core-arch
-      when: ansible_distribution == "Archlinux"
-
-    - name: Set default shell to zsh
-      user:
-        name: "{{ ansible_user }}"
-        shell: /bin/zsh
-
 - name: Ensure core packages are installed (Debian)
   apt:
     state: present
@@ -157,52 +94,44 @@
     - btop # Terminal-based resource monitor
     - fzf # Command-line fuzzy finder
     - fzy # Faster Command-line fuzzy finder
-    - fd # Simple, fast and user-friendly alternative to find
+    - fd-find # Simple, fast and user-friendly alternative to find
     - curl # Command-line tool for transferring data
-    - starship # Cross-shell prompt with rich functionality
-    - freerdp # Remote Desktop Protocol (RDP) client
-    - mousepad # Simple text editor for Xfce
+    #- starship # Cross-shell prompt with rich functionality
+    - freerdp2-x11 # Remote Desktop Protocol (RDP) client
     - tumbler # D-Bus service for applications requesting thumbnail images
     - zoxide # Fast directory changer
     - tmux # Terminal multiplexer
     - ripgrep # Fast, recursive search tool
     - fontconfig # Font configuration and customization library
     - stow # Organize software neatly in a separate directory
-    - ttf-font-awesome # Iconic font designed for use with Font Awesome
-    - ttf-fira-sans # Sans-serif font designed for Firefox OS
-    - ttf-fira-code # Monospaced font with programming ligatures
-    - ttf-firacode-nerd # Nerd Font patched version of Fira Code
+    # - ttf-font-awesome # Iconic font designed for use with Font Awesome
+    # - ttf-fira-sans # Sans-serif font designed for Firefox OS
+    # - ttf-fira-code # Monospaced font with programming ligatures
+    # - ttf-firacode-nerd # Nerd Font patched version of Fira Code
     - exa # Modern replacement for 'ls'
     - figlet # ASCII art font generator
     - duplicity # Encrypted bandwidth-efficient backup using the rsync algorithm
-    - ark # Archiving tool for KDE
-    
-    - pfetch
+    - ark # Archiving tool for KDE    
+    #- pfetch
     - xdotool
-    - spotify
+    #- spotify-client
     - slack-desktop
-    - ttf-jetbrains-mono-nerd
-    - ttf-sourcecodepro-nerd
-
+    #- ttf-jetbrains-mono-nerd
+    #- ttf-sourcecodepro-nerd
     # desktop env
-    - python-pywal # Generate and change color schemes on the fly
-    - xautolock # Activate X screen saver or locker after a user-defined inactivity period
     - ranger # Console file manager with VI key bindings
-
-    - octopi
-    - nnn-nerd
     # virualization
-    - kvritual
+    #- kvritual
     # dev
-    - lazydocker
+    #- lazydocker
     - doxygen
-    - jetbrains-toolbox
+    #- jetbrains-toolbox
     # game engine
-    - unityhub
+    #- unityhub
     #- unreal-engine
     #- godot-git
     #- godot3
   tags:
-    - complete
-    - core
+    - complete-deb
+    - core-deb
   when: ansible_os_family == "Debian"
