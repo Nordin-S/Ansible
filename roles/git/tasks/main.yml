@@ -1,6 +1,6 @@
 ---
 - name: Install Git
-  pacman:
+  ansible.builtin.package:
     name: git
     state: present
   become: true
@@ -22,7 +22,7 @@
     value: "{{ git_credentials.git_email }}"
 
 - name: Install Github cli
-  pacman:
+  ansible.builtin.package:
     name: github-cli
     state: present
   become: true

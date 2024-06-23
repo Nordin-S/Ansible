@@ -1,7 +1,7 @@
 
 ---
 - name: Install development tools
-  pacman:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop:

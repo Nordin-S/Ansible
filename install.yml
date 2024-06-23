@@ -1,5 +1,5 @@
 ---
-- name: Setup Archlinux Workstation
+- name: Setup Workstation
   hosts: personal
   become: true
   roles:
